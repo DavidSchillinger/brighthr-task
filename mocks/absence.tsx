@@ -1,7 +1,7 @@
-import {Absence} from '../api/absences'
+import {ApiAbsence} from '../api/absences'
 
 
-export function mockAbsence(override?: Partial<Absence>): Absence {
+export function mockAbsence(override?: Partial<ApiAbsence>): ApiAbsence {
 	return {
 		id: uniqueId(),
 		startDate: '2000-10-20T20:30:00.000Z',

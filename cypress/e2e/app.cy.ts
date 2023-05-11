@@ -1,10 +1,10 @@
-import {Absence} from '../../api/absences'
+import {ApiAbsence} from '../../api/absences'
 import {mockAbsence} from '../../mocks/absence'
 
 
 const absenceSelector = '[data-test="absence-card"]'
 
-const interceptFetchAbsences = (absences: Absence[]) => {
+const interceptFetchAbsences = (absences: ApiAbsence[]) => {
 	cy.intercept('GET', 'https://front-end-kata.brighthr.workers.dev/api/absences', {
 		statusCode: 200,
 		body: absences,

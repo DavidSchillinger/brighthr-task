@@ -1,10 +1,9 @@
-import {Absence} from '../api/absences'
-import {useFetchGet} from '../api/useFetchGet'
+import {useAbsences} from '../api/absences'
 import {Absences} from './Absences'
 
 
 export function App() {
-	const absences = useFetchGet<Absence[]>('https://front-end-kata.brighthr.workers.dev/api/absences')
+	const absences = useAbsences()
 
 	switch (absences.status) {
 	case 'pending':
