@@ -1,3 +1,4 @@
+import {addDays} from 'date-fns'
 import {Fragment} from 'react'
 import {Absence} from '../api/absences'
 import {useFetchGet} from '../api/useFetchGet'
@@ -16,16 +17,28 @@ export function App() {
 	case 'fulfilled':
 		return (
 			<Fragment>
-				{absences.value.map(absence => (
-					<section
-						key={absence.id}
-						data-test='absence-card'
-					>
-						Employee: {absence.employee.firstName} {absence.employee.lastName}
-						Start date: {formatDate(new Date(absence.startDate))}
-					</section>
-				))}
+				{absences.value.map(absence => {
+					// I'd normally compute this immediately after the HTTP request instead.
+					const dates = calculateDates(absence)
+
+					return (
+						<section
+							key={absence.id}
+							data-test='absence-card'
+						>
+							Employee: {absence.employee.firstName} {absence.employee.lastName} <br/>
+							Start date: {formatDate(dates.start)} <br/>
+							End date: {formatDate(dates.end)} <br/>
+						</section>
+					)
+				})}
 			</Fragment>
 		)
 	}
+}
+
+function calculateDates(absence: Absence): { start: Date, end: Date } {
+	const start = new Date(absence.startDate)
+	const end = addDays(start, absence.days)
+	return {start, end}
 }
