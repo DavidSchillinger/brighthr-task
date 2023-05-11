@@ -12,11 +12,11 @@ export type Absence = {
 }
 
 export type AbsenceType =
-	'FAMILY' |
-	'COMPASSIONATE_LEAVE' |
-	'MEDICAL' |
-	'SICKNESS' |
-	'ANNUAL_LEAVE'
+	'FAMILY'
+	| 'COMPASSIONATE_LEAVE'
+	| 'MEDICAL'
+	| 'SICKNESS'
+	| 'ANNUAL_LEAVE'
 
 type Employee = {
 	id: string,
