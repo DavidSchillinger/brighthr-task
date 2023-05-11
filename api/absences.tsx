@@ -42,6 +42,7 @@ export async function fetchAbsences(): Promise<Absence[]> {
 			'https://front-end-kata.brighthr.workers.dev/api/absences',
 		)
 		.then(response => response.data)
+		.then(absences => absences.slice(0, 5)) // Only show 5 absences... Note that this isn't a real solution!
 		.then(absences => (
 			Promise.all(absences.map(absence => (
 				axios.get<{conflicts: boolean}>(
