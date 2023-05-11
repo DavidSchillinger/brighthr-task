@@ -17,6 +17,7 @@ describe('BrightHR Absences', () => {
 			employee: {firstName: 'Foo', lastName: 'Bar', id: '0'},
 			startDate: '2020-10-20',
 			days: 3,
+			approved: true,
 		})])
 
 		cy.visit('/')
@@ -25,5 +26,6 @@ describe('BrightHR Absences', () => {
 		cy.get(absenceSelector).contains('Employee: Foo Bar')
 		cy.get(absenceSelector).contains('Start date: 20/10/2020')
 		cy.get(absenceSelector).contains('End date: 23/10/2020')
+		cy.get(absenceSelector).contains('Status: Approved')
 	})
 })

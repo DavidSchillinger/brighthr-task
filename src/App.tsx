@@ -29,6 +29,7 @@ export function App() {
 							Employee: {absence.employee.firstName} {absence.employee.lastName} <br/>
 							Start date: {formatDate(dates.start)} <br/>
 							End date: {formatDate(dates.end)} <br/>
+							Status: {absence.approved ? 'Approved' : 'Pending approval'} <br/>
 						</section>
 					)
 				})}
