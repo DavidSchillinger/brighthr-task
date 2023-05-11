@@ -3,6 +3,8 @@ import {Absence} from '../api/absences'
 import {useFetchGet} from '../api/useFetchGet'
 
 
+const {format: formatDate} = new Intl.DateTimeFormat('en-GB', {dateStyle: 'short'})
+
 export function App() {
 	const absences = useFetchGet<Absence[]>('https://front-end-kata.brighthr.workers.dev/api/absences')
 
@@ -20,6 +22,7 @@ export function App() {
 						data-test='absence-card'
 					>
 						Employee: {absence.employee.firstName} {absence.employee.lastName}
+						Start date: {formatDate(new Date(absence.startDate))}
 					</section>
 				))}
 			</Fragment>

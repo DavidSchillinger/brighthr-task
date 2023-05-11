@@ -13,10 +13,15 @@ const interceptFetchAbsences = (absences: Absence[]) => {
 
 describe('BrightHR Absences', () => {
 	it('displays the absence', () => {
-		interceptFetchAbsences([mockAbsence({employee: {firstName: 'Foo', lastName: 'Bar', id: '0'}})])
+		interceptFetchAbsences([mockAbsence({
+			employee: {firstName: 'Foo', lastName: 'Bar', id: '0'},
+			startDate: '2020-10-20',
+		})])
+
 		cy.visit('/')
 
 		cy.get(absenceSelector).should('be.visible')
 		cy.get(absenceSelector).contains('Employee: Foo Bar')
+		cy.get(absenceSelector).contains('Start date: 20/10/2020')
 	})
 })
