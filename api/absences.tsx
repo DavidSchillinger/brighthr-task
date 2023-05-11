@@ -1,6 +1,5 @@
-import {useFetchGet} from './useFetchGet'
-import {useMemo} from 'react'
 import {addDays} from 'date-fns'
+import axios from 'axios'
 
 
 export type ApiAbsence = {
@@ -17,6 +16,7 @@ export type Absence = {
 	type: AbsenceType,
 	employee: Employee,
 	approved: boolean,
+	hasConflict: boolean,
 	start: Date,
 	end: Date,
 }
@@ -34,34 +34,31 @@ type Employee = {
 	lastName: string,
 }
 
-export function useAbsences() {
-	const absences = useFetchGet<ApiAbsence[]>('https://front-end-kata.brighthr.workers.dev/api/absences')
-
-	return useMemo(
-		() => {
-			switch (absences.status) {
-			case 'pending':
-			case 'rejected':
-				return absences
-			case 'fulfilled':
-				return {
-					...absences,
-					value: absences.value.map(transform),
-				}
-			}
-		},
-		[absences],
+// Note the waterfall here and the potential of making _many_ HTTP requests.
+// I'd highly recommend either rendering only few absences at a time or changing the backend, so we can avoid this.
+export async function fetchAbsences(): Promise<Absence[]> {
+	return (
+		axios.get<ApiAbsence[]>(
+			'https://front-end-kata.brighthr.workers.dev/api/absences',
+		)
+		.then(response => response.data)
+		.then(absences => (
+			Promise.all(absences.map(absence => (
+				axios.get<{conflicts: boolean}>(
+					`https://front-end-kata.brighthr.workers.dev/api/conflict/${absence.id}`,
+				)
+				.then(response => ({...absence, hasConflict: response.data.conflicts}))
+			)))
+			.then(absences => absences.map(absence => ({
+				id: absence.id,
+				type: absence.absenceType,
+				employee: absence.employee,
+				approved: absence.approved,
+				hasConflict: absence.hasConflict,
+				...calculateDates(absence),
+			})))
+		))
 	)
-}
-
-function transform(absence: ApiAbsence): Absence {
-	return {
-		id: absence.id,
-		type: absence.absenceType,
-		employee: absence.employee,
-		approved: absence.approved,
-		...calculateDates(absence),
-	}
 }
 
 function calculateDates(absence: ApiAbsence): {start: Date, end: Date} {

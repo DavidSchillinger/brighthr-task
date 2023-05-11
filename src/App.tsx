@@ -1,9 +1,10 @@
-import {useAbsences} from '../api/absences'
+import {fetchAbsences} from '../api/absences'
+import {usePromise} from '../api/usePromise'
 import {Absences} from './Absences'
 
 
 export function App() {
-	const absences = useAbsences()
+	const absences = usePromise(fetchAbsences)
 
 	switch (absences.status) {
 	case 'pending':

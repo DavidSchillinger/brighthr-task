@@ -27,6 +27,7 @@ export function Absences(props: {absences: Absence[]}) {
 					End date: {formatDate(absence.end)} <br/>
 					Status: {absence.approved ? 'Approved' : 'Pending approval'} <br/>
 					Reason: {absenceType[absence.type]} <br/>
+					Conflict: {absence.hasConflict ? 'Yes' : 'No'} <br/>
 				</section>
 			))}
 		</Fragment>
