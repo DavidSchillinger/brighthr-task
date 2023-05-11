@@ -1,10 +1,18 @@
 import {addDays} from 'date-fns'
 import {Fragment} from 'react'
-import {Absence} from '../api/absences'
+import {Absence, AbsenceType} from '../api/absences'
 import {useFetchGet} from '../api/useFetchGet'
 
 
 const {format: formatDate} = new Intl.DateTimeFormat('en-GB', {dateStyle: 'short'})
+
+const absenceTypeFormat: Record<AbsenceType, string> = {
+	FAMILY: 'Family',
+	COMPASSIONATE_LEAVE: 'Compassionate leave',
+	MEDICAL: 'Medical',
+	SICKNESS: 'Sickness',
+	ANNUAL_LEAVE: 'Annual leave',
+}
 
 export function App() {
 	const absences = useFetchGet<Absence[]>('https://front-end-kata.brighthr.workers.dev/api/absences')
@@ -30,6 +38,7 @@ export function App() {
 							Start date: {formatDate(dates.start)} <br/>
 							End date: {formatDate(dates.end)} <br/>
 							Status: {absence.approved ? 'Approved' : 'Pending approval'} <br/>
+							Reason: {absenceTypeFormat[absence.absenceType]} <br/>
 						</section>
 					)
 				})}

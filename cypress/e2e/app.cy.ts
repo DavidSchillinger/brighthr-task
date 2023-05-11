@@ -18,6 +18,7 @@ describe('BrightHR Absences', () => {
 			startDate: '2020-10-20',
 			days: 3,
 			approved: true,
+			absenceType: 'FAMILY',
 		})])
 
 		cy.visit('/')
@@ -27,5 +28,6 @@ describe('BrightHR Absences', () => {
 		cy.get(absenceSelector).contains('Start date: 20/10/2020')
 		cy.get(absenceSelector).contains('End date: 23/10/2020')
 		cy.get(absenceSelector).contains('Status: Approved')
+		cy.get(absenceSelector).contains('Reason: Family')
 	})
 })

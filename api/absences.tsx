@@ -11,7 +11,12 @@ export type Absence = {
 	approved: boolean,
 }
 
-type AbsenceType = 'FAMILY' | 'COMPASSIONATE_LEAVE' | 'MEDICAL' | 'SICKNESS' | 'ANNUAL_LEAVE'
+export type AbsenceType =
+	'FAMILY' |
+	'COMPASSIONATE_LEAVE' |
+	'MEDICAL' |
+	'SICKNESS' |
+	'ANNUAL_LEAVE'
 
 type Employee = {
 	id: string,
