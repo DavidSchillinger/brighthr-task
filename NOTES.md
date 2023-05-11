@@ -24,3 +24,5 @@
 - Basic styling is acceptable (now screenshots included with task)
 - All fields returned from the API are required
 - CI/CD configuration is out-of-scope for this test
+- Sorting should only work one field at a time
+- Sorting should default to the employee name, ascending

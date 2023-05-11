@@ -1,5 +1,6 @@
-import {AbsenceType, Absence} from '../api/absences'
-import {Fragment} from 'react'
+import {Absence, AbsenceType} from '../api/absences'
+import {CSSProperties, Fragment} from 'react'
+import {Sorting, useSorting} from './Sorting'
 
 
 const {format: formatDate} = new Intl.DateTimeFormat('en-GB', {dateStyle: 'short'})
@@ -12,15 +13,26 @@ const absenceType: Record<AbsenceType, string> = {
 	ANNUAL_LEAVE: 'Annual leave',
 }
 
+// TODO: Replace by CSS classes, styled components, Tailwind or similar.
+const absenceStyle: CSSProperties = {
+	display: 'block',
+	marginBottom: '1rem',
+}
+
 export function Absences(props: {absences: Absence[]}) {
-	const {absences} = props
+	const {absences, setSort} = useSorting(props.absences)
 
 	return (
 		<Fragment>
+			<Sorting onChange={setSort}/>
+
+			<hr/>
+
 			{absences.map(absence => (
 				<section
 					key={absence.id}
 					data-test='absence-card'
+					style={absenceStyle}
 				>
 					Employee: {absence.employee.firstName} {absence.employee.lastName} <br/>
 					Start date: {formatDate(absence.start)} <br/>
@@ -33,4 +45,3 @@ export function Absences(props: {absences: Absence[]}) {
 		</Fragment>
 	)
 }
-
